@@ -1,12 +1,8 @@
-# Core libraries
 torch
 streamlit
 pinecone-client
-
-# Langchain libraries
 langchain
 langchain-huggingface
 langchain-pinecone
-langchain-core # Updated to 0.1.40 to satisfy both dependencies
-
-# Other dependencies (if needed)
+langchain-core  
+ 
