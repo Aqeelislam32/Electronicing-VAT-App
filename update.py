@@ -11,7 +11,7 @@ from langchain_core.runnables import RunnableLambda
 from langchain.prompts import PromptTemplate
 
 # Now you can access your API keys and endpoints
-langchain_endpoint = st.secrets["LANGCHAIN_ENDPOINT"]
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 langchain_api_key = st.secrets["LANGCHAIN_API_KEY"]
 mistral_api_key = st.secrets["MISTRAL_API_KEY"]
 pinecone_api_key = st.secrets["PINECONE_API_KEY"]
