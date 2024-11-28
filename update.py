@@ -11,11 +11,10 @@ from langchain_core.runnables import RunnableLambda
 from langchain.prompts import PromptTemplate
 
 # Now you can access your API keys and endpoints
-langchain_endpoint = os.getenv("LANGCHAIN_ENDPOINT")
-langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
-langchain_project = os.getenv("LANGCHAIN_PROJECT")
-mistral_api_key = os.getenv("MISTRAL_API_KEY")
-pinecone_api_key = os.getenv("PINECONE_API_KEY")
+langchain_endpoint = st.secrets["LANGCHAIN_ENDPOINT"]
+langchain_api_key = st.secrets["LANGCHAIN_API_KEY"]
+mistral_api_key = st.secrets["MISTRAL_API_KEY"]
+pinecone_api_key = st.secrets["PINECONE_API_KEY"]
 # Initialize the LLM (Language Model) with the system prompt in English
 system_prompt = """ Dobrodošli u Paragraf Lex! Ovde sam da vas vodim kroz sva pitanja koja imate o PDV-u i elektronskom fakturisanju u Srbiji. Čime vam mogu pomoći danas?
 
