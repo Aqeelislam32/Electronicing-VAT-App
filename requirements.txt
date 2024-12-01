@@ -90,7 +90,7 @@ tokenizers==0.20.3
 toml==0.10.2
 torch==2.5.1
 torchaudio==2.4.0
-torchvision==0.20.1+cpu
+torchvision==0.20.1
 tornado==6.4.2
 tqdm==4.67.1
 transformers==4.46.3
