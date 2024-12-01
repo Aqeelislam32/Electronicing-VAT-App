@@ -1,4 +1,4 @@
-utorch
+torch==2.5.1
 streamlit
 dotenv
 pinecone-client
