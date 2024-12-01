@@ -1,6 +1,7 @@
 torch
 streamlit
 pinecone-client
+Pillow
 langchain
 langchain-huggingface
 langchain-pinecone
