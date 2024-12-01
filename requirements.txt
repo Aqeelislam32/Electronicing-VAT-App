@@ -1,4 +1,4 @@
-torch
+utorch
 streamlit
 dotenv
 pinecone-client
@@ -8,4 +8,4 @@ langchain-pinecone
 langchain-huggingface
 langchain-core
 pillow
-pip>=24.3.1
+
