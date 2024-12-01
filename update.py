@@ -1,6 +1,7 @@
 import os
 import torch
 import streamlit as st
+from dotenv import load_dotenv
 from pinecone import Pinecone
 from langchain_mistralai import ChatMistralAI
 from langchain.prompts.chat import ChatPromptTemplate
@@ -11,12 +12,8 @@ from langchain_core.runnables import RunnableLambda
 from langchain.prompts import PromptTemplate
 from PIL import Image
 
- 
-
-
- 
-
-
+# Load environment variables from .env file
+load_dotenv()
 
 # Streamlit app customization using CSS
 st.markdown("""
@@ -79,16 +76,11 @@ st.markdown("""
             display: flex;
             align-items: center;
         }
-        .header-container img {
-            height: 60px; /* Adjust the logo height */
-            margin-right: 15px; /* Space between logo and title */
-        }
         .header-container h1 {
             font-size: 28px;
             color: #333;
             margin: 0;
         }
-
 
         /* Set base theme and background color */
         body {
@@ -105,51 +97,15 @@ st.markdown("""
         .sidebar .sidebar-content {
             background-color: #d2c5c5;
         }
-
-        #logo desgin
-        .header-container {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Increased gap between the logo and text */
-    padding: 20px; /* Added padding for a cleaner layout */
-}
-
-.header-container img {
-    width: 300px; /* Increased logo width */
-    height: auto; /* Maintain aspect ratio for the logo */
-    border-radius: 10px; /* Added slight rounding for a professional touch */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for emphasis */
-}
-
-.header-container h1 {
-    font-size: 32px; /* Increased font size for better visibility */
-    margin: 0;
-    padding: 0;
-    color: #222; /* Slightly darker text for contrast */
-    font-family: 'Arial', sans-serif; /* Updated font for a modern look */
-    line-height: 1.2; /* Adjusted line height for readability */
-}
-
-         
-
-
     </style>
 """, unsafe_allow_html=True)
 
- 
 css = """
     .header-container {
     display: flex;
     align-items: center;
     gap: 20px; /* Increased gap between the logo and text */
     padding: 20px; /* Added padding for a cleaner layout */
-}
-
-    .header-container img {
-    width: 300px; /* Increased logo width */
-    height: auto; /* Maintain aspect ratio for the logo */
-    border-radius: 10px; /* Added slight rounding for a professional touch */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for emphasis */
 }
 
     .header-container h1 {
@@ -160,10 +116,8 @@ css = """
     font-family: 'Arial', sans-serif; /* Updated font for a modern look */
     line-height: 1.2; /* Adjusted line height for readability */
 }
-
 """
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
- 
 
 # HTML templates for chatbot UI
 bot_template = '''
@@ -184,16 +138,12 @@ user_template = '''
 </div>
 '''
 
-
-
-
-
-# Load environment variables from Streamlit secrets
-LANGCHAIN_ENDPOINT = st.secrets["env"]["LANGCHAIN_ENDPOINT"]
-LANGCHAIN_API_KEY = st.secrets["env"]["LANGCHAIN_API_KEY"]
-LANGCHAIN_PROJECT = st.secrets["env"]["LANGCHAIN_PROJECT"]
-MISTRAL_API_KEY = st.secrets["env"]["MISTRAL_API_KEY"]
-PINECONE_API_KEY = st.secrets["env"]["PINECONE_API_KEY"]
+# Set up environment variables
+os.environ["LANGCHAIN_ENDPOINT"] = os.getenv("LANGCHAIN_ENDPOINT")
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGCHAIN_PROJECT")
+os.environ["MISTRAL_API_KEY"] = os.getenv("MISTRAL_API_KEY")
+os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
 
 # Initialize the LLM (Language Model) with the system prompt in English
 system_prompt = """ Dobrodošli u Paragraf Lex! Ovde sam da vas vodim kroz sva pitanja koja imate o PDV-u i elektronskom fakturisanju u Srbiji. Čime vam mogu pomoći danas?
@@ -242,7 +192,7 @@ Doslednost jezika: Odgovaraću na istom jeziku na kojem je postavljeno pitanje.
 
 Integracija članaka (segmenti):
 
-Kada korisnik postavi pitanje, sistem će pružiti relevantne članke iz Paragraf online pravne biblioteke kao kontekstualne podatke (segmente) koje ću koristiti za formulisanje odgovora.
+Kada korisnik postavi pitanje, sistem će pružiti relevantne članke iz Paragraf online pravne biblioteke kao kontekstualne podatke (segmenti) koje ću koristiti za formulisanje odgovora.
 
 Napomene:
 
@@ -254,10 +204,7 @@ Predstaviću informacije kao potpune odgovore bez spominjanja korišćenja segme
 
 Cilj:
 
-
 Moj cilj je da korisnicima pružim najkvalitetnije i najdetaljnije informacije kako bi razumeli i ispunili svoje pravne obaveze vezane za elektronsko fakturisanje i PDV u Republici Srbiji.."""
-
- 
 
 llm = ChatMistralAI(model="mistral-large-latest", system_message=system_prompt)
 
@@ -278,6 +225,10 @@ embedding_function = HuggingFaceEmbeddings(
     }
 )
 
+# Add fallback message if CUDA is not available
+if not torch.cuda.is_available():
+    print("Warning: CUDA is not available. The model will run on CPU, which may lead to slower performance.")
+
 # Create Pinecone vectorstore
 vectorstore = PineconeVectorStore(
     index=index,
@@ -287,7 +238,7 @@ vectorstore = PineconeVectorStore(
 )
 
 # Initialize retriever
-retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
+retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
 # Define the query refinement prompt template in English
 refinement_template = """Create a focused Serbian search query for the RAG retriever bot. Convert to Serbian language if not already. Include key terms, synonyms, and domain-specific vocabulary. Remove filler words. Output only the refined query in the following format: {{refined_query}},{{keyterms}},{{synonyms}}
@@ -351,25 +302,7 @@ def process_query(query: str):
         return f"An error occurred: {str(e)}"
 
 # Streamlit app
-# Streamlit app
-def add_logo(logo_path, width, height):
-    """Read and return a resized logo"""
-    logo = Image.open(logo_path)
-    modified_logo = logo.resize((width, height))
-    return modified_logo
-
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
-col1, col2, col3, col4, col5, col6 = st.columns(6)
-
-with col6:
-    pg_logo = add_logo(logo_path="logo.jpg", width=60, height=40)
-    st.image(pg_logo)
-
-
-
-
-
-
 
 st.markdown("""
     <h1 style="text-shadow: 2px 2px 5px red; font-weight: bold; text-align: center;">
@@ -379,8 +312,8 @@ st.markdown("""
 
 st.markdown("""
     <p style="font-size: 18px; color: #000000; line-height: 1.6; text-align: center;">
-        👋 Welcome to <strong>Paragraf Lex</strong>, your trusted guide for navigating 🇷🇸 VAT and 🧾 electronic invoicing in Serbia. <br>
-        💡 Let me assist you with any questions or provide insights on 📜 legal regulations and more.
+        👋 Welcome to <strong>Paragraf Lex</strong>, your trusted guide for navigating 🇷🇸 VAT and 🧒 electronic invoicing in Serbia. <br>
+        💡 Let me assist you with any questions or provide insights on 📝 legal regulations and more.
     </p>
 """, unsafe_allow_html=True)
 
@@ -396,7 +329,6 @@ prompts = [
 
 for prompt in prompts:
     st.sidebar.write(prompt)
- 
 
 # Session state to save chat history if needed
 if "chat_history" not in st.session_state:
@@ -416,4 +348,4 @@ for entry in st.session_state.chat_history:
 
 # Option to clear chat history
 if st.button("Obriši istoriju razgovora"):
-    st.session_state.chat_history = [] 
+    st.session_state.chat_history = []
