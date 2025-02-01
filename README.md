@@ -1,23 +1,22 @@
-Electronic invoicing d VAT laws 📜 in Serbia
+**1. App Name**  
+**Paragraf Lex Chatbot**  
 
-📜 Description:
-👨‍💻 A Streamlit app powered by Mistral AI 🤖 to assist users with electronic invoicing (e-fakturisanje) and VAT laws 📜 in Serbia 🇷🇸. The app leverages advanced retrieval-based question-answering 🧠 using Pinecone Vector DB 🗄️ and HuggingFace embeddings 🤝 for semantic search 🔍.
+**2. Overview**  
+Paragraf Lex Chatbot is an AI-powered legal assistant specializing in Serbian VAT regulations and electronic invoicing. Built with advanced AI models (Mistral and Pinecone), it offers accurate, context-aware answers by leveraging legal documents from the Paragraf online library.  
 
-🎨 Features:
+**3. Description**  
+The chatbot uses **Retrieval-Augmented Generation (RAG)** to provide precise legal insights:  
+- **Query Refinement**: Enhances user questions using domain-specific terms for better context retrieval.  
+- **Vector Database**: Searches indexed legal articles in Pinecone to fetch relevant clauses and regulations.  
+- **Mistral AI Integration**: Generates clear, cited responses in Serbian, avoiding jargon and outdated information.  
+- **Streamlit UI**: Features a user-friendly interface with chat history, customizable styling, and quick-access sidebar prompts.  
 
-🖼️ Stylish Interface: Gray background 🎨, brown buttons 🤎, rounded avatars 👤, and a responsive chatbot layout 🧾.
-🗂️ Knowledge Integration: Embeds Paragraf Lex legal content 📖 for accurate answers, ensuring reliable legal support ⚖️.
-🔄 Real-Time Retrieval: Uses Mistral LLM 🧠 to generate responses based on query refinement 🔧 and Serbian legal vocab 🇷🇸.
-🌐 Multi-Language Support: The app adapts to user queries in Serbian while maintaining professionalism 🤝.
-💾 Backend Strength: Powered by Pinecone's vector database 💿, ensuring fast and accurate document retrieval 📜.
-🚦 Prompt Refinement: Queries are optimized for search engines using custom templates 🛠️.
-⚙️ Tech Stack:
+**4. Features**  
+- **Legal Expertise**: Tailored for Serbian VAT, e-invoicing, and related laws.  
+- **Dynamic Context Handling**: Combines Mistral's reasoning with real-time document retrieval.  
+- **Multilingual Support**: Answers in the user's input language (primarily Serbian).  
+- **Error Prevention**: Validates responses against sourced data to avoid misinformation.  
+- **Interactive Design**: Custom avatars, responsive input fields, and session-persistent chat history.  
 
-💻 Streamlit: User-friendly front-end 🖥️.
-🧠 Mistral Large Model: Latest LLM for detailed, context-aware responses 📝.
-🗄️ Pinecone: Vector storage for faster, smarter searches 🔎.
-🔬 HuggingFace: Embeddings to enhance semantic understanding 🧩.
-🚀 Torch: CUDA acceleration for lightning-fast computations ⚡ (with CPU fallback 🖥️).
-🌍 Environment Variables: Secured with dotenv 🔐 for safe key management 🔑.
-🔧 Purpose:
-🎯 To provide accurate, helpful, and user-friendly assistance on Serbian tax and invoicing laws 🧾.
+**5. Conclusion**  
+Paragraf Lex Chatbot bridges the gap between complex legal texts and user-friendly guidance, empowering businesses and individuals to navigate Serbian tax compliance confidently. Its AI-driven approach ensures up-to-date, reliable answers while maintaining accessibility for non-experts.
