@@ -206,7 +206,7 @@ Cilj:
 
 Moj cilj je da korisnicima pružim najkvalitetnije i najdetaljnije informacije kako bi razumeli i ispunili svoje pravne obaveze vezane za elektronsko fakturisanje i PDV u Republici Srbiji.."""
 
-llm = ChatMistralAI(model="mistral-large-latest", system_message=system_prompt)
+llm = ChatMistralAI(model="mistral-large-2411", system_message=system_prompt)
 
 # Initialize Pinecone for vector database
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -349,3 +349,4 @@ for entry in st.session_state.chat_history:
 # Option to clear chat history
 if st.button("Obriši istoriju razgovora"):
     st.session_state.chat_history = []
+
